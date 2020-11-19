@@ -25,10 +25,12 @@ let messages = [
 
 io.on('connection', (socket) => {
   let userId = socket.id;
-  console.log(`${userId}connect`)
+  console.log(`new user connect`)
   socket.on('disconnect', () => {
-    let idx = users.findIndex(user => user.id == userId)
-    io.emit('test', users[idx])
+    let user = users.filter(user => user.id === userId)
+    if (user.length > 0) {
+      console.log(`${user[0].name} disconnect`)
+    }
     users = users.filter(user => user.id != userId)
     io.emit('users', users)
     
